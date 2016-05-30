@@ -1,0 +1,34 @@
+machine:
+  timezone:
+    Europe/Copenhagen
+  environment:
+    # Add composer global bin dir to path.
+    PATH: $HOME/.composer/vendor/bin:$PATH
+  php:
+    version: 5.6.17
+
+dependencies:
+  pre:
+    # Set PHP timezone.
+    - echo "date.timezone = Europe/Copenhagen" > /opt/circleci/php/$(phpenv global)/etc/conf.d/timezone.ini
+
+    # Enable xdebug for test coverage.
+    - sed -i 's/^;//' /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/xdebug.ini
+
+    # Install test reporter for codeclimate.
+    - composer --no-interaction require codeclimate/php-test-reporter:v0.3.2
+
+    # Install test reporter for scrutinizer.
+    - wget https://scrutinizer-ci.com/ocular.phar
+
+    # Install test reporter for coveralls.
+    # Assume satooshi/php-coveralls is installed via codeclimate.
+
+    # Run test coverage.
+    - phpunit --coverage-clover build/logs/clover.xml
+
+    # Send test coverage to codeclimate.
+    - ./vendor/bin/test-reporter
+
+    # Send test coverage to scrutinizer.
+    - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml

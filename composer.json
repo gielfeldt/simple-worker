@@ -1,0 +1,23 @@
+{
+    "name": "gielfeldt/simple-worker",
+    "type": "library",
+    "description": "Simple worker and pool library.",
+    "keywords": ["worker", "pool", "queue"],
+    "homepage": "https://github.com/gielfeldt/simple-worker",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas Gielfeldt",
+            "email": "thomas@gielfeldt.dk"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gielfeldt\\SimpleWorker\\": "src/",
+            "Gielfeldt\\SimpleWorker\\Test\\": "tests/"
+        }
+    }
+}
