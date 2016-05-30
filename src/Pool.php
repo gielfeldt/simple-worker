@@ -97,7 +97,7 @@ class Pool
     public function process(array $options = array())
     {
         $options += $this->options;
-        while ($this->workers) {
+        while (!empty($this->workers)) {
             $skipSleep = false;
             foreach ($this->workers as $idx => $worker) {
                 if ($idx >= $options['concurrency']) {
